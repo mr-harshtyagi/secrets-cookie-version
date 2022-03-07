@@ -34,7 +34,7 @@ mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
-  googleId: String
+  googleId: String,
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -44,16 +44,14 @@ const User = new mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
 
-
-passport.serializeUser(function(user, done) {
-    done(null, user.id); 
-   
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-        done(err, user);
-    });
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
 });
 
 passport.use(
